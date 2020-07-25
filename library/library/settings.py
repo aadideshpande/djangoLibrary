@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,11 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # if user successfully logs in, 
 # we redirect to the home page
 LOGIN_REDIRECT_URL = 'home'
+
+
+# when user manually tries to go to the profile
+# page without logging in, he is redirected to the 
+# login page.
+
+# once the user logs in, he is sent to his profile page
+LOGIN_URL = 'login'
