@@ -122,3 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# if user successfully logs in, 
+# we redirect to the home page
+LOGIN_REDIRECT_URL = 'home'
