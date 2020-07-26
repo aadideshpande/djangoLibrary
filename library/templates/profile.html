@@ -3,9 +3,38 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="jumbotron">
-      <h2>{{ user.username }}</h2>  
+<div class="container" style="padding-top: 100px">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters" style="padding-left: 10px; padding-top: 10px; padding-bottom: 10px" >
+            <div class="col-md-4">
+                <img src="{{ user.profile.image.url }}" class="rounded-circle account-img"
+                    style="width: 100px; height:100px;" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{user.username}}</h5>
+                    <p class="card-text">
+                        <strong>Email:</strong>  {{user.email}}
+                    </p>
+                    <p>
+                        <strong> Age:</strong> {{user.profile.age}}
+                    </p>
+                    <p>
+                        <strong> Phone:</strong> {{user.profile.phone}}
+                    </p>
+                </div>
+            </div>
+            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4"> Profile info</legend>
+                    {{ u_form|crispy }}
+                    {{ p_form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Update</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
     {% endblock content %}

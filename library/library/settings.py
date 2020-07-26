@@ -135,3 +135,9 @@ LOGIN_REDIRECT_URL = 'home'
 
 # once the user logs in, he is sent to his profile page
 LOGIN_URL = 'login'
+
+
+# media root is where our uploaded files will be 
+# located in the file system
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

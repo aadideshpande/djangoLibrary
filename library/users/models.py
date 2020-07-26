@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from PIL import Image
 # we are using this to keep constraints for the user age
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -27,6 +27,7 @@ class Profile(models.Model):
 		)
 	phone = PhoneNumberField()
 	gender = models.CharField(max_length = 1, choices=GENDER)
+	image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
 
 	def __str__(self):
