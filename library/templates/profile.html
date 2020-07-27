@@ -35,6 +35,21 @@
                 </div>
             </form>
         </div>
+
     </div>
+    {% for book in curr_books %}
+    <div class="card mb-3">
+      <div class="card-header">
+        {{ book.title }}
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>{{book.author}}</p>
+        </blockquote>
+      </div>
+    </div>
+    {% endfor %}
+
+
 </div>
     {% endblock content %}

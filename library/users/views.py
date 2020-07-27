@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-
+from books.models import Book
 # function for new user registeration
 def register(request):
 
@@ -37,6 +37,8 @@ def register(request):
 @login_required
 # function for user's profile
 def profile(request):
+    curr_user = request.user
+    curr_books = curr_user.book_set.all()
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance = request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
@@ -51,7 +53,10 @@ def profile(request):
     context = {
     'u_form':u_form,
     'p_form':p_form,
+    'curr_books': curr_books,
     }
     return render(request, 'profile.html', context)
 
 
+def home(request):
+    return render(request, 'base.html')

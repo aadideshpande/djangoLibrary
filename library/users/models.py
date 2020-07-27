@@ -10,6 +10,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
 
+
+
 class Profile(models.Model):
 	GENDER = (
 		('M', 'male'),
@@ -32,3 +34,4 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return f'{self.user.username} Profile'
+
