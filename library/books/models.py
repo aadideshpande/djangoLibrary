@@ -13,3 +13,8 @@ class Book(models.Model):
                                         )   
     def __str__(self):
         return self.title
+
+    # after a new book is created, user is sent to
+    # the detail view of the new book
+    def get_absolute_url(self):
+    	return reverse('book-detail', kwargs={'pk' : self.pk})

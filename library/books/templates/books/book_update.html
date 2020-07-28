@@ -1,0 +1,32 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        {% if messages %}
+        {% for msg in messages %}
+        <div class="alert alert-{{ msg.tags }}">
+            {{ msg }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% block content %}
+
+        {% endblock content %}
+
+        
+        <div class="card mb-3">
+          <div class="card-header">
+            {{ object.title }}
+            <p> added by: {{ object.myuser}}</p>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p>{{object.author}}</p>
+            </blockquote>
+          </div>
+        </div>
+    </div>
+
+{% endblock content %}
+    

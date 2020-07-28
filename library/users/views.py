@@ -59,4 +59,8 @@ def profile(request):
 
 
 def home(request):
-    return render(request, 'base.html')
+    all_books = Book.objects.all()
+    context = {
+        'books' : all_books
+    }
+    return render(request, 'base.html', context)

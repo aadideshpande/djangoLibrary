@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="container" style="padding-top: 100px">
-    <div class="card mb-3" style="max-width: 540px;">
+    <div class="card mb-3 col-md-6" style="max-width: 500px;">
         <div class="row no-gutters" style="padding-left: 10px; padding-top: 10px; padding-bottom: 10px" >
             <div class="col-md-4">
                 <img src="{{ user.profile.image.url }}" class="rounded-circle account-img"
@@ -35,12 +35,19 @@
                 </div>
             </form>
         </div>
-
     </div>
+
+        <hr>
+        <h3>My Books</h3>
+        <hr>
     {% for book in curr_books %}
     <div class="card mb-3">
       <div class="card-header">
-        {{ book.title }}
+         <a href="{% url 'book-detail' book.id %}" title=""><h3> {{ book.title }} </h3></a>
+         
+            <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
+            <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
+        
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">

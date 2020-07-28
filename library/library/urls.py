@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
-
+from books import views as books_views
 # this is provided by django for login and logout
 from django.contrib.auth import views as auth_views
 
@@ -24,13 +24,21 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
+from books.views import BookListView, BookDetailView, BookCreateView, BookUpdateView, BookDeleteView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', user_views.home, name='home'),
+    path('', BookListView.as_view(), name='home'),
+    path('book/<int:pk>', BookDetailView.as_view(), name='book-detail'),
+    path('book/<int:pk>/update', BookUpdateView.as_view(), name='book-update'),
+    path('book/<int:pk>/delete', BookDeleteView.as_view(), name='book-delete'),
+    path('book/new/', BookCreateView.as_view(), name='book-create'),
+    #path('', user_views.home, name='home'),
     path('register/', user_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('profile/', user_views.profile, name='profile'),
+    path('search/',books_views.search, name='search')
 ]
 
 if settings.DEBUG:
