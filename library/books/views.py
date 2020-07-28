@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Book
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
 class BookListView(ListView):
 	model = Book
 
@@ -65,10 +66,23 @@ def search(request):
 	# we get the query from the search bar
 	query = request.GET['query']
 
-	# if title of the object contains the query, 
-	# we filter it
-	obj = Book.objects.filter(title__contains=query)
+	# To prevent large queries to be searched on our page,
+	# we put a condition
+	if len(query) > 100:
+		obj = Book.objects.none()
+	else:
+		# if title of the object contains the query, 
+		# we filter it
+		objTitle = Book.objects.filter(title__contains=query)
+		objAuthor = Book.objects.filter(author__contains=query)
+
+		# we perform a union of both the searches to prevent duplicates
+		obj = objTitle.union(objAuthor)
+
+	if obj.count() == 0:
+		messages.warning(request, f'No results found')
 	context = {
 		'searchbooks' : obj,
+		'query' : query,
 	}
 	return render(request, "search.html", context)
