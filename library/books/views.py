@@ -14,6 +14,8 @@ class BookListView(ListView):
 	# {% for book in books %} in base.html
 	# we want to use 'books'
 	context_object_name = 'books'
+	paginate_by = 4
+
 
 class BookDetailView(DetailView):
 	model = Book
