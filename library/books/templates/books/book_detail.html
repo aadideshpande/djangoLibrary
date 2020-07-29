@@ -4,6 +4,12 @@
           <div class="card-header">
             {{ object.title }}
 
+            {%if notpresent %}
+                <a class="btn btn-primary" href="{% url 'favorite_book' object.id %}" title="">favorite?</a>
+
+            {% else %}
+                <a class="btn btn-danger" href="#" title="">remove</a>
+            {% endif %}
            
             <p> added by: {{ object.myuser}}</p>
           </div>

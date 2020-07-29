@@ -40,7 +40,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('profile/', user_views.profile, name='profile'),
     path('search/',books_views.search, name='search'),
-    #path('favourite/', books_views.favourite_book, name='favourite_book'),
+    path('favorite/<int:pk>', books_views.favorite_book, name='favorite_book'),
 ]
 
 if settings.DEBUG:

@@ -4,6 +4,9 @@ from .models import Book
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
+from fav.models import Favorite
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 class BookListView(ListView):
 	model = Book
 
@@ -21,6 +24,21 @@ class BookListView(ListView):
 
 class BookDetailView(DetailView):
 	model = Book
+	def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            fav_list1 = []
+            fav_list2 = []
+            fav_list1 = Favorite.objects.filter(user = self.request.user)
+            
+            for i in fav_list1:
+                if i.target_object_id == context['object'].id:
+                    fav_list2.append(i)
+
+            if len(fav_list2) == 0:
+                context['notpresent'] = True
+            else:
+                context['notpresent'] = False
+            return context
 
 """
 def book_detail(request, id):
@@ -32,25 +50,7 @@ def book_detail(request, id):
 
 
 
-
-def favourite_book(request):
-	book = get_object_or_404(Book, id = request.POST.get('book_id'))
-	is_favourite = False
-	if book.favourite.filter(id=request.user.id).exists():
-		book.favourite.remove(request.user)
-		is_favourite = False
-	else:
-		is_favourite = True
-		book.favourite.add(request.user)
-	return  HttpResponseRedirect(book.get_absolute_url())
 """
-
-
-
-
-
-
-
 
 
 # LoginRequiredMixin is used in case the user tries to
@@ -121,3 +121,16 @@ def search(request):
 	}
 	return render(request, "search.html", context)
 
+
+
+@login_required
+def favorite_book(request, pk):
+       book1 = get_object_or_404(Book, id=pk)
+       print(book1)
+       user1 = request.user
+       print(user1)
+       fav = Favorite.objects.create(user1, book1)
+       print(fav)
+       messages.success(request, f'This post has been added to your favorites')
+
+       return  HttpResponseRedirect(book1.get_absolute_url())

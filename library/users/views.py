@@ -55,6 +55,8 @@ def profile(request):
 
     book_id_list = []
     favs = Favorite.objects.all()
+
+    # to print the favorite books of the user
     for i in favs:
         if i.user == request.user:
             k = i.target_object_id
