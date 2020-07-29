@@ -57,6 +57,32 @@
     </div>
     {% endfor %}
 
+<hr>
+
+        <h3>Favorite Books</h3>
+        <hr>
+    {% for book in fav_books %}
+        
+    
+    <div class="card mb-3">
+      <div class="card-header">
+         <a href="{% url 'book-detail' book.id %}" title=""><h3> {{ book.title }} </h3></a>
+         
+            <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
+            <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
+        
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>{{book.author}}</p>
+        </blockquote>
+      </div>
+    </div>
+
+    {% endfor %}
+    
+
+
 
 </div>
     {% endblock content %}

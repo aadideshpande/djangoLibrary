@@ -10,7 +10,9 @@ class Book(models.Model):
     publication		= models.CharField(max_length=100)	
     myuser          = models.ForeignKey( User,
                                             on_delete = models.CASCADE
-                                        )   
+                                        ) 
+    favourite       = models.ManyToManyField(User, related_name='favourite', blank=True) 
+
     def __str__(self):
         return self.title
 

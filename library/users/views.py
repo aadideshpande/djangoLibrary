@@ -4,6 +4,8 @@ from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from books.models import Book
+from django.contrib.auth.models import User
+from fav.models import Favorite
 # function for new user registeration
 def register(request):
 
@@ -50,10 +52,22 @@ def profile(request):
     else:
         u_form = UserUpdateForm(instance = request.user)
         p_form = ProfileUpdateForm(instance = request.user.profile)
+
+    book_id_list = []
+    favs = Favorite.objects.all()
+    for i in favs:
+        if i.user == request.user:
+            k = i.target_object_id
+            myobj = Book.objects.get(id=k)
+            #print(type(myobj))
+            book_id_list.append(myobj)
+            #print(type(book_id_list))
+
     context = {
     'u_form':u_form,
     'p_form':p_form,
     'curr_books': curr_books,
+    'fav_books' : book_id_list
     }
     return render(request, 'profile.html', context)
 

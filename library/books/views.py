@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Book
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.http import HttpResponseRedirect, HttpResponse
 class BookListView(ListView):
 	model = Book
 
@@ -17,8 +18,39 @@ class BookListView(ListView):
 	paginate_by = 4
 
 
+
 class BookDetailView(DetailView):
 	model = Book
+
+"""
+def book_detail(request, id):
+	book = get_object_or_404(Book, id=id, slug=slug)
+	context = {
+		'object' : book,
+	}
+	return render(request, 'books/book_detail.html', context_object_name)
+
+
+
+
+def favourite_book(request):
+	book = get_object_or_404(Book, id = request.POST.get('book_id'))
+	is_favourite = False
+	if book.favourite.filter(id=request.user.id).exists():
+		book.favourite.remove(request.user)
+		is_favourite = False
+	else:
+		is_favourite = True
+		book.favourite.add(request.user)
+	return  HttpResponseRedirect(book.get_absolute_url())
+"""
+
+
+
+
+
+
+
 
 
 # LoginRequiredMixin is used in case the user tries to
@@ -88,3 +120,4 @@ def search(request):
 		'query' : query,
 	}
 	return render(request, "search.html", context)
+

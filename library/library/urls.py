@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', BookListView.as_view(), name='home'),
     path('book/<int:pk>', BookDetailView.as_view(), name='book-detail'),
+    #path('book/<int:pk>', book_detail, name='book-detail'),
     path('book/<int:pk>/update', BookUpdateView.as_view(), name='book-update'),
     path('book/<int:pk>/delete', BookDeleteView.as_view(), name='book-delete'),
     path('book/new/', BookCreateView.as_view(), name='book-create'),
@@ -38,7 +39,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('profile/', user_views.profile, name='profile'),
-    path('search/',books_views.search, name='search')
+    path('search/',books_views.search, name='search'),
+    #path('favourite/', books_views.favourite_book, name='favourite_book'),
 ]
 
 if settings.DEBUG:
