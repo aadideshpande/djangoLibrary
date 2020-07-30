@@ -4,6 +4,7 @@
 {% block content %}
 
 <div class="container" style="padding-top: 100px">
+    <div class="row">
     <div class="card mb-3 col-md-6" style="max-width: 500px;">
         <div class="row no-gutters" style="padding-left: 10px; padding-top: 10px; padding-bottom: 10px" >
             <div class="col-md-4">
@@ -34,54 +35,63 @@
                     <button class="btn btn-outline-info" type="submit">Update</button>
                 </div>
             </form>
+                
+                <hr>
+                <h4>Favorite Books</h4>
+                <hr>
+            {% for book in fav_books %}
+                
+            
+            <div class="card mb-3">
+              <div class="card-header">
+                 <a href="{% url 'book-detail' book.id %}" title=""><h3> {{ book.title }} </h3></a>
+                 <!--
+                    <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
+                    <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
+                -->
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>{{book.author}}</p>
+                </blockquote>
+              </div>
+            </div>
+
+            {% endfor %}
+            {% if empty %}
+            
+            <div class="card-header">
+                <p>Add favorites by going to the book page.</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 
-        <hr>
-        <h3>My Books</h3>
-        <hr>
-    {% for book in curr_books %}
-    <div class="card mb-3">
-      <div class="card-header">
-         <a href="{% url 'book-detail' book.id %}" title=""><h3> {{ book.title }} </h3></a>
-         
-            <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
-            <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
-        
-      </div>
-      <div class="card-body">
-        <blockquote class="blockquote mb-0">
-          <p>{{book.author}}</p>
-        </blockquote>
-      </div>
-    </div>
-    {% endfor %}
+    <div class="card mb-3 col-md-6" style="max-width: 500px;">
+                <hr>
+                <h3>My Books</h3>
+                <hr>
+            {% for book in curr_books %}
+            <div class="card mb-3">
+              <div class="card-header">
+                 <a href="{% url 'book-detail' book.id %}" title=""><h3> {{ book.title }} </h3></a>
+                 
+                    <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
+                    <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
+                
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>{{book.author}}</p>
+                </blockquote>
+              </div>
+            </div>
+            {% endfor %}
 
-<hr>
 
-        <h3>Favorite Books</h3>
-        <hr>
-    {% for book in fav_books %}
-        
     
-    <div class="card mb-3">
-      <div class="card-header">
-         <a href="{% url 'book-detail' book.id %}" title=""><h3> {{ book.title }} </h3></a>
-         
-            <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
-            <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
-        
-      </div>
-      <div class="card-body">
-        <blockquote class="blockquote mb-0">
-          <p>{{book.author}}</p>
-        </blockquote>
-      </div>
-    </div>
-
-    {% endfor %}
-    
-
+    </div>  
+</div>              
 
 
 </div>

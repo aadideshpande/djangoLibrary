@@ -18,7 +18,7 @@ class BookListView(ListView):
 	# {% for book in books %} in base.html
 	# we want to use 'books'
 	context_object_name = 'books'
-	paginate_by = 4
+	paginate_by = 5
 
 
 
@@ -27,14 +27,24 @@ class BookDetailView(DetailView):
 	def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             fav_list1 = []
-            fav_list2 = []
-            fav_list1 = Favorite.objects.filter(user = self.request.user)
+            #fav_list2 = []
+            fav_list1 = Favorite.objects.filter(user = self.request.user, target_object_id = context['object'].id)
+
+            # user should be able to add the book to his favorites
+            # only if he is not the owner of the book
+            if self.request.user == context['object'].myuser:
+                context['not_same_user'] = False
+                return context
+            else:
+                context['not_same_user'] = True
             
+            '''
             for i in fav_list1:
                 if i.target_object_id == context['object'].id:
                     fav_list2.append(i)
+            '''
 
-            if len(fav_list2) == 0:
+            if len(fav_list1) == 0:
                 context['notpresent'] = True
             else:
                 context['notpresent'] = False
@@ -107,8 +117,8 @@ def search(request):
 	else:
 		# if title of the object contains the query, 
 		# we filter it
-		objTitle = Book.objects.filter(title__contains=query)
-		objAuthor = Book.objects.filter(author__contains=query)
+		objTitle = Book.objects.filter(title__icontains=query)
+		objAuthor = Book.objects.filter(author__icontains=query)
 
 		# we perform a union of both the searches to prevent duplicates
 		obj = objTitle.union(objAuthor)
@@ -132,5 +142,19 @@ def favorite_book(request, pk):
        fav = Favorite.objects.create(user1, book1)
        print(fav)
        messages.success(request, f'This post has been added to your favorites')
+
+       return  HttpResponseRedirect(book1.get_absolute_url())
+
+
+@login_required
+def remove_favorite_book(request, pk):
+       book1 = get_object_or_404(Book, id=pk)
+       print(book1)
+       user1 = request.user
+       print(user1)
+       fav = Favorite.objects.filter(user = user1, target_object_id = pk)
+       print(fav)
+       fav.delete()
+       messages.success(request, f'This post has been removed from your favorites')
 
        return  HttpResponseRedirect(book1.get_absolute_url())

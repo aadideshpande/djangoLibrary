@@ -41,6 +41,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('search/',books_views.search, name='search'),
     path('favorite/<int:pk>', books_views.favorite_book, name='favorite_book'),
+    path('removefavorite/<int:pk>', books_views.remove_favorite_book, name='remove_favorite_book'),
 ]
 
 if settings.DEBUG:

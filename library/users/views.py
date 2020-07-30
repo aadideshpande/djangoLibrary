@@ -60,16 +60,25 @@ def profile(request):
     for i in favs:
         if i.user == request.user:
             k = i.target_object_id
-            myobj = Book.objects.get(id=k)
-            #print(type(myobj))
-            book_id_list.append(myobj)
-            #print(type(book_id_list))
+
+            if Book.objects.filter(id=k).exists():
+                myobj = Book.objects.get(id=k)
+                #print(type(myobj))
+                book_id_list.append(myobj)
+                #print(type(book_id_list))
+
+
+    if len(book_id_list) == 0:
+        empty = True
+    else:
+        empty = False
 
     context = {
     'u_form':u_form,
     'p_form':p_form,
     'curr_books': curr_books,
-    'fav_books' : book_id_list
+    'fav_books' : book_id_list,
+    'empty' : empty
     }
     return render(request, 'profile.html', context)
 
