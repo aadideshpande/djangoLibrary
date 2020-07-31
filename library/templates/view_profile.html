@@ -5,38 +5,42 @@
 
 <div class="container" style="padding-top: 100px">
     <div class="row">
+    
     <div class="card mb-3 col-md-6" style="max-width: 500px;">
         <div class="row no-gutters" style="padding-left: 10px; padding-top: 10px; padding-bottom: 10px" >
-            <div class="col-md-4">
-                <img src="{{ user.profile.image.url }}" class="rounded-circle account-img"
+            
+            <div class="col-md-4" style="padding-bottom: 10px">
+                <img src="{{ user2.profile.image.url }}" class="rounded-circle account-img"
                     style="width: 100px; height:100px;" alt="...">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8" style="padding-bottom: 10px">
                 <div class="card-body">
-                    <h5 class="card-title">{{user.username}}</h5>
+                    <h5 class="card-title">{{user2.username}}</h5>
+                    <!--
                     <p class="card-text">
-                        <strong>Email:</strong>  {{user.email}}
+                        <strong>Email:</strong>  {{user2.email}}
                     </p>
                     <p>
-                        <strong> Age:</strong> {{user.profile.age}}
+                        <strong> Age:</strong> {{user2.profile.age}}
                     </p>
                     <p>
-                        <strong> Phone:</strong> {{user.profile.phone}}
+                        <strong> Phone:</strong> {{user2.profile.phone}}
                     </p>
+                -->
                 </div>
             </div>
-            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4"> Profile info</legend>
-                    {{ u_form|crispy }}
-                    {{ p_form|crispy }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Update</button>
-                </div>
-            </form>
-                
-                <hr>
+
+            {% if not user.is_authenticated %}
+                    <div class="border-top pt-3"  style="padding-top: 10px">
+                        <small class="text-muted">
+                            Log In to view more about the user<a class="ml-2" href="{% url 'login' %}">Sign In</a>
+                        </small>
+                    </div>
+            {% endif %}
+        </div>
+
+       <!-- {% if user.is_authenticated %} -->
+                        <hr>
                 <h4>Favorite Books</h4>
                 <hr>
             {% for book in fav_books %}
@@ -49,7 +53,6 @@
                     <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
                     <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
                 -->
-                <a class="btn btn-danger" href="{% url 'remove_favorite_book2' book.id %}" title="">remove</a>
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
@@ -59,16 +62,14 @@
             </div>
 
             {% endfor %}
-            {% if empty %}
-            
-            <div class="card-header">
-                <p>Add favorites by going to the book page.</p>
-            </div>
-            {% endif %}
-        </div>
-    </div>
+        <!-- {% endif %} -->
 
-    <div class="card mb-3 col-md-6" style="max-width: 500px;">
+
+    </div>              
+
+    <!--{% if user.is_authenticated %} -->
+
+        <div class="card mb-3 col-md-6" style="max-width: 500px;">
                 <hr>
                 <h3>My Books</h3>
                 <hr>
@@ -76,10 +77,7 @@
             <div class="card mb-3">
               <div class="card-header">
                  <a href="{% url 'book-detail' book.id %}" title=""><h3> {{ book.title }} </h3></a>
-                 
-                    <a class="btn btn-primary" href="{% url 'book-update' book.id %}" title="">Update</a>
-                    <a class="btn btn-danger" href="{% url 'book-delete' book.id %}" title="">Delete</a>
-                
+                  
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
@@ -87,13 +85,12 @@
                 </blockquote>
               </div>
             </div>
-            {% endfor %}
+            {% endfor %}    
+        </div> 
+    <!--{% endif %}-->
 
 
-    
-    </div>  
-</div>              
 
-
+    </div>
 </div>
     {% endblock content %}

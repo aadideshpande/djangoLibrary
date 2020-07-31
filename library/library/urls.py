@@ -42,6 +42,10 @@ urlpatterns = [
     path('search/',books_views.search, name='search'),
     path('favorite/<int:pk>', books_views.favorite_book, name='favorite_book'),
     path('removefavorite/<int:pk>', books_views.remove_favorite_book, name='remove_favorite_book'),
+    path('removefavorite2/<int:pk>', books_views.remove_favorite_book2, name='remove_favorite_book2'),
+
+    path('profile/<int:pk>', user_views.view_profile, name='view_profile'),
+    path('adminstats/', user_views.adminstats, name='adminstats'),
 ]
 
 if settings.DEBUG:

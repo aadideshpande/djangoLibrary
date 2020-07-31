@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Book
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -22,12 +22,13 @@ class BookListView(ListView):
 
 
 
-class BookDetailView(DetailView):
+class BookDetailView(LoginRequiredMixin,DetailView):
 	model = Book
 	def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             fav_list1 = []
             #fav_list2 = []
+
             fav_list1 = Favorite.objects.filter(user = self.request.user, target_object_id = context['object'].id)
 
             # user should be able to add the book to his favorites
@@ -158,3 +159,17 @@ def remove_favorite_book(request, pk):
        messages.success(request, f'This post has been removed from your favorites')
 
        return  HttpResponseRedirect(book1.get_absolute_url())
+
+
+@login_required
+def remove_favorite_book2(request, pk):
+       book1 = get_object_or_404(Book, id=pk)
+       print(book1)
+       user1 = request.user
+       print(user1)
+       fav = Favorite.objects.filter(user = user1, target_object_id = pk)
+       print(fav)
+       fav.delete()
+       #messages.success(request, f'This post has been removed from your favorites')
+
+       return redirect('profile')

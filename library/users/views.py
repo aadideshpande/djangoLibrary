@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from books.models import Book
 from django.contrib.auth.models import User
 from fav.models import Favorite
+from django.http import HttpResponse
 # function for new user registeration
 def register(request):
 
@@ -89,3 +90,67 @@ def home(request):
         'books' : all_books
     }
     return render(request, 'base.html', context)
+
+
+def view_profile(request, pk):
+    user2 = get_object_or_404(User, id=pk)
+    
+    if(user2 == request.user):
+        return redirect('profile')
+
+    user2_books = Book.objects.filter(myuser = user2)
+
+    
+    book_id_list = []
+    favs = Favorite.objects.all()
+
+    # to print the favorite books of the user
+    for i in favs:
+        if i.user == request.user:
+            k = i.target_object_id
+
+            if Book.objects.filter(id=k).exists():
+                myobj = Book.objects.get(id=k)
+                #print(type(myobj))
+                book_id_list.append(myobj)
+                #print(type(book_id_list))
+
+
+    context = {
+        'user2' : user2,
+        'curr_books' : user2_books,
+        'fav_books' : book_id_list,
+    }
+
+    return render(request, 'view_profile.html', context)
+
+
+
+def adminstats(request):
+    superusers = User.objects.filter(is_superuser=True)
+    flag = 0
+    for i in superusers:
+        if i == request.user:
+            flag = 1
+            break
+
+    if flag == 1:
+        users = User.objects.all()
+        books = Book.objects.all()
+        count_users = users.count()
+        count_books = books.count()
+        context = {
+        'books' : books,
+        'users' : users,
+        'count_users' : count_users,
+        'count_books' : count_books,
+        }
+
+    if flag == 0:
+        messages.warning(request, f'Login in as a superuser')
+        return redirect('login')
+
+    return render(request, 'adminstats.html', context)
+    
+    
+    

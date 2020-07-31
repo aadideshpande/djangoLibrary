@@ -77,43 +77,32 @@
         {% endfor %}
         {% endif %}
         {% block content %}
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">List Of Users ({{count_users}})</h1>
+                    {% for user in users %}
+                    <ul class="list-group">
+                        <li class="list-group-item">{{user.username}}</li>
+                    </ul>
+                    {% endfor %}
 
+            </div>
+        </div>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">List Of Books ({{count_books}})</h1>
+                    {% for book in books %}
+                    <ul class="list-group">
+                        <li class="list-group-item">{{book.title}}</li>
+                    </ul>
+                    {% endfor %}
+
+            </div>
+        </div>
         {% endblock content %}
 
-        {% for book in books %}
-        <div class="card mb-3">
-          <div class="card-header">
-            <a href="{% url 'book-detail' book.id %}" title="">{{ book.title }}</a>
-          </div>
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>{{book.author}}</p>
-            </blockquote>
-          </div>
-        </div>
-        {% endfor %}
-
-        {% if is_paginated %}
-            {% if page_obj.has_previous %}
-                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <a class="btn btn-info mb-4" href="?page={{num}}">{{num}}</a>
-                {% elif num > page_obj.number|add:'-3' and num > page_obj.number|add:'3' %}
-                    <a class="btn btn-outline-info mb-4" href="?page={{num}}">{{num}}</a>
-                {% endif %}
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            {% endif %}
-        {% endif %}
-    </div>
-
+       
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
