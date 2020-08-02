@@ -1,8 +1,12 @@
 asgiref==3.2.7
+Babel==2.8.0
 certifi==2020.6.20
 Django==3.0.3
 django-crispy-forms==1.9.2
+django-fav==0.3
+django-phonenumber-field==4.0.0
 olefile==0.46
+phonenumbers==8.12.6
 Pillow==7.1.2
 pytz==2020.1
 sqlparse==0.3.1

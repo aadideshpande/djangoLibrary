@@ -106,7 +106,7 @@ def view_profile(request, pk):
 
     # to print the favorite books of the user
     for i in favs:
-        if i.user == request.user:
+        if i.user == user2:
             k = i.target_object_id
 
             if Book.objects.filter(id=k).exists():
